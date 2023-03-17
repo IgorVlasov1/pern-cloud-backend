@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
     if (!token) {
       return res.status(401).json({ message: "Auth Error" });
     }
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const decoded = jwt.verify(token, "mern-secret-key");
     req.user = decoded;
     console.log("User :" + req.user);
     next();
