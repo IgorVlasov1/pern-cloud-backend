@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
     if (!isPassValid) {
       return res.status(404).json({ message: "Invalid Password" });
     }
-    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ id: user.id }, "mern-secret-key", {
       expiresIn: "1h",
     });
     return res.json({
@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
 router.get("/auth", authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.user.id } });
-    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ id: user.id }, "process.env.SECRET_KEY", {
       expiresIn: "1h",
     });
     return res.json({
