@@ -1,0 +1,8 @@
+# dependencies
+node_modules
+# dependencies
+
+.env
+.env.example
+.env.local
+.env.staging
