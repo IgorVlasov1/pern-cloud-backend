@@ -31,7 +31,7 @@
 // User.hasMany(File);
 // File.belongsTo(User);
 const Uuid = require("uuid");
-const sequelize = require("./config/db.config");
+const sequelize = require("../config/db.config");
 const { DataTypes } = require("sequelize");
 
 const User = sequelize.define("Profiles", {
