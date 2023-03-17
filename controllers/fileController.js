@@ -73,7 +73,7 @@ class FileController {
               file.dataValues.lastOpen != null
           );
         }
-        if (req.query.parent != undefined) {
+        if (req.query.parent !== undefined) {
           let childs = await File.findAll({
             where: {
               parent: req.query.parent,
@@ -113,7 +113,7 @@ class FileController {
     try {
       const file = req.files.file;
       let parent;
-      if (req.body.parent != undefined) {
+      if (req.body.parent !== undefined) {
         parent = await File.findOne({
           where: {
             user: req.user.id,
@@ -137,8 +137,7 @@ class FileController {
           `../files/${user.dataValues.id}/${parent.dataValues.path}/${file.name}`
         );
         console.log("Путь", pathFile);
-      }
-      if (parent == null) {
+      } else {
         oneFilePath = file.name;
         pathFile = path.join(
           __dirname,
@@ -175,7 +174,7 @@ class FileController {
         type,
         size: file.size,
         path: oneFilePath,
-        parent: parent == undefined ? null : parent.dataValues.id,
+        parent: parent === undefined ? null : parent.dataValues.id,
         user: user.id,
       });
 
