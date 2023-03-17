@@ -137,7 +137,8 @@ class FileController {
           `../files/${user.dataValues.id}/${parent.dataValues.path}/${file.name}`
         );
         console.log("Путь", pathFile);
-      } else {
+      }
+      if (parent == null) {
         oneFilePath = file.name;
         pathFile = path.join(
           __dirname,
