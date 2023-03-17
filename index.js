@@ -12,6 +12,7 @@ console.log("this port", PORT);
 const corsMiddleWare = require("./middleware/cors.middleware");
 app.use(fileUpload({}));
 app.use(corsMiddleWare);
+
 app.use(express.json());
 // app.use(express.static("static"));
 app.use("/api/auth", authRouter);
