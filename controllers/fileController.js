@@ -173,7 +173,7 @@ class FileController {
         type,
         size: file.size,
         path: oneFilePath,
-        parent: parent ? parent.dataValues.id : undefined,
+        parent: parent.dataValues.id,
         user: user.id,
       });
 
