@@ -9,7 +9,6 @@ class FileService {
       `../files/${file.dataValues.user}/${file.dataValues.path}`
     );
 
-    console.log("Filepath: ", filePath);
     return new Promise((resolve, reject) => {
       try {
         if (!fs.existsSync(filePath)) {
@@ -25,9 +24,7 @@ class FileService {
   }
 
   deleteFile(file) {
-    console.log("Deleting", file.dataValues);
     const path = this.getPath(file);
-    console.log("Путь до файла: ", path);
     if (file.dataValues.type === "dir") {
       fs.rmSync(path, { recursive: true, force: true });
     } else {

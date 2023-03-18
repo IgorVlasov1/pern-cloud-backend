@@ -8,7 +8,6 @@ const fileRouter = require("./routes/file.routes");
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 5000;
-console.log("this port", PORT);
 const corsMiddleWare = require("./middleware/cors.middleware");
 app.use(fileUpload({}));
 app.use(corsMiddleWare);

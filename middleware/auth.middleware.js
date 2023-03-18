@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
+const KEY = process.env.SECRET_KEY;
 module.exports = (req, res, next) => {
   if (req.method === "OPTIONS") {
     next();
@@ -11,9 +13,8 @@ module.exports = (req, res, next) => {
     if (!token) {
       return res.status(401).json({ message: "Auth Error" });
     }
-    const decoded = jwt.verify(token, "mern-secret-key");
+    const decoded = jwt.verify(token, KEY);
     req.user = decoded;
-    console.log("User :" + req.user);
     next();
   } catch (e) {
     return res.status(401).json({ message: `${e}` });

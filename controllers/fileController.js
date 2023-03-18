@@ -12,7 +12,6 @@ class FileController {
       const { name, type, parent } = req.body;
       const file = await File.create({ name, type, parent, user: req.user.id });
       const parentFile = await File.findByPk(parent);
-      console.log(parentFile);
 
       if (parentFile == null) {
         file.path = name;
@@ -21,7 +20,7 @@ class FileController {
         await file.update({ path: `${parentFile.path}\\${file.name}` });
         const updateArray = Array(parentFile.childs);
         updateArray.push(file.id);
-        console.log(updateArray);
+
         await File.update(
           {
             childs: updateArray,
@@ -36,16 +35,14 @@ class FileController {
       await fileService.createDir(file);
       return res.json(file);
     } catch (e) {
-      console.log(e);
       return res.status(400).json(e);
     }
   }
   async getFiles(req, res) {
-    console.log("OTEC", req.query.parent);
     try {
       const { sort, chosen } = req.query;
       let files;
-      console.log(chosen);
+
       if (sort == undefined) {
         files = await File.findAll({
           where: { user: req.user.id, parent: req.query.parent || null },
@@ -79,7 +76,7 @@ class FileController {
               parent: req.query.parent,
             },
           });
-          console.log("ДЕТИ МОИ", childs);
+
           files = childs;
         }
       }
@@ -125,7 +122,7 @@ class FileController {
       if (user.dataValues.usedSpace + file.size > user.dataValues.diskSpace) {
         return res.status(400).json({ message: "There no space on the disk" });
       }
-      // let sizeOfDirUser = user.dataValues.usedSpace + file.size;
+
       user.usedSpace = user.dataValues.usedSpace + file.size;
       user.save();
       let pathFile;
@@ -193,7 +190,7 @@ class FileController {
       const file = await File.findOne({
         where: { id: req.query.id, user: req.user.id },
       });
-      console.log("Это файл Скачать: ", file.dataValues);
+
       const pathFile = path.join(
         __dirname,
         `../files/${req.user.id}/${file.dataValues.path}`
@@ -280,7 +277,6 @@ class FileController {
 
   async uploadAvatar(req, res) {
     try {
-      console.log(req.files.file);
       const file = req.files.file;
       const user = await User.findByPk(req.user.id);
       const avatarName = Uuid.v4() + ".jpg";
@@ -312,7 +308,7 @@ class FileController {
   async choseFiles(req, res) {
     try {
       const file = await File.findByPk(req.body.id);
-      console.log(file.chosen);
+
       await file.update({ chosen: !file.chosen });
       return res.json(file.dataValues);
     } catch (e) {
@@ -323,7 +319,7 @@ class FileController {
   async setLastOpenDate(req, res) {
     try {
       const file = await File.findByPk(req.body.id);
-      console.log(file.chosen);
+
       await file.update({ lastOpen: Date.now() });
       return res.json(file.dataValues);
     } catch (e) {
