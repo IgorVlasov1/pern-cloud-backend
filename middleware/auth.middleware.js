@@ -1,6 +1,4 @@
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-dotenv.config();
 module.exports = (req, res, next) => {
   if (req.method === "OPTIONS") {
     next();

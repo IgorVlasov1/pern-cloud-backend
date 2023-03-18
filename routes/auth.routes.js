@@ -8,7 +8,6 @@ const authMiddleware = require("../middleware/auth.middleware");
 const { check, validationResult } = require("express-validator");
 const fileService = require("../services/fileService");
 const router = new Router();
-const KEY = process.env.SECRET_KEY;
 router.post(
   "/registration",
   [
@@ -53,7 +52,7 @@ router.post("/login", async (req, res) => {
     if (!isPassValid) {
       return res.status(404).json({ message: "Invalid Password" });
     }
-    const token = jwt.sign({ id: user.id }, KEY, {
+    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
       expiresIn: "1h",
     });
     return res.json({
@@ -75,7 +74,7 @@ router.post("/login", async (req, res) => {
 router.get("/auth", authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.user.id } });
-    const token = jwt.sign({ id: user.id }, KEY, {
+    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
       expiresIn: "1h",
     });
     return res.json({
