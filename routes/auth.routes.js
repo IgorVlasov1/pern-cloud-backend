@@ -18,6 +18,7 @@ router.post(
     ).isLength({ min: 3, max: 12 }),
   ],
   async (req, res) => {
+    console.log("User: ", req.body);
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -28,12 +29,16 @@ router.post(
       if (candidate) {
         return res
           .status(400)
-          .json({ message: `User with email ${email} already exist ` });
+          .json({ message: `Пользователь с почтой ${email} уже существует ` });
       }
       const hashPassword = await bcrypt.hash(password, 8);
-      const user = await User.create({ email, password: hashPassword });
+      const user = await User.create({
+        email,
+        password: hashPassword,
+      });
       await fileService.createDir(new File({ user: user.id, name: "" }));
-      return res.json({ message: "User was Created" });
+
+      return res.json({ message: "Пользователь создан" });
     } catch (e) {
       console.log(e);
       res.send({ message: "Server error" });

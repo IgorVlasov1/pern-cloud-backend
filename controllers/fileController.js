@@ -165,7 +165,7 @@ class FileController {
           );
         })();
       }
-      console.log("tet", parent);
+
       const dbFile = await File.create({
         name: file.name,
         type,
